@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import HTMLParser
+import textwrap
 import json
 import vim
 import webbrowser
 import urllib2
 import re
 
-REDDIT_URL = 'http://www.reddit.com/r/programming/hot.json'
+def redditurl(subreddit):
+    return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
+
 MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
 
 def bufwrite(string):
@@ -37,7 +39,7 @@ def bufwrite(string):
 
 urls = [None] * 1000 # urls[index]: url of link at index
 
-def vim_reddit():
+def vim_reddit(sub):
     vim.command('edit .reddit')
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
@@ -45,7 +47,7 @@ def vim_reddit():
     bufwrite('/r/programming (http://www.reddit.com/r/programming)')
     bufwrite('')
 
-    items = json.loads(urllib2.urlopen(REDDIT_URL).read())
+    items = json.loads(urllib2.urlopen(redditurl(sub)).read())
     for i, item in enumerate(items['data']['children']):
         item = item['data']
         try:
@@ -68,24 +70,26 @@ def vim_reddit():
 
 def vim_reddit_link(in_browser = False):
     line = vim.current.line
-    search = re.match(r'/\d+\. .* \(.*\)', line)
-    if search:
-        id = search.split()[0].replace('.', '')
+    print urls[int(line.split()[0].replace('.', ''))]
+
+    regexp = re.compile(r'\d+\.')
+    if regexp.search(line) is not None:
+        id = line.split()[0].replace('.', '')
         if in_browser:
             browser = webbrowser.get()
             browser.open(urls[int(id)])
             return
         vim.command('edit .reddit')
-        content = json.loads(urllib2.urlopen(
+        content = urllib2.urlopen(
             MARKDOWN_URL + urls[int(id)]
-        )).read()
+        ).read()
         for i, line in enumerate(content.split('\n')):
             if not line:
-                bwrite('')
+                bufwrite('')
                 continue
             line = textwrap.wrap(line, width=80)
-            for j, wrap in enumerate(line):
-                bwrite(wrap)
+            for wrap in line:
+                bufwrite(wrap)
         return
     print 'vim-reddit error: could not parse item'
 
