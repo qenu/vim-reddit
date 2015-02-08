@@ -5,8 +5,10 @@ import json
 import vim
 import webbrowser
 import urllib2
+import re
 
 REDDIT_URL = 'http://www.reddit.com/r/programming/hot.json'
+MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
 
 def bufwrite(string):
     b = vim.current.buffer
@@ -33,6 +35,8 @@ def bufwrite(string):
     else:
         b.append(string)
 
+urls = [] # urls[index]: url of link at index
+
 def vim_reddit():
     vim.command('edit .reddit')
     vim.command('setlocal noswapfile')
@@ -57,8 +61,31 @@ def vim_reddit():
             bufwrite(line_1)
             bufwrite(line_2)
             bufwrite('')
+
+            urls[i + 1] = item['url']
         except KeyError:
             pass
 
-def vim_reddit_link():
-    return
+def vim_reddit_link(in_browser = False):
+    line = vim.current.line
+    search = re.search(r'\[([0-9]+)\]$', line)
+    if search:
+        id = m.group(1)
+        if in_browser:
+            browser = webbrowser.get()
+            browser.open(urls[int(id)])
+            return
+        vim.command('edit .reddit')
+        content = json.loads(urllib2.urlopen(
+            MARKDOWN_URL + urls[int(id)]
+        )).read()
+        for i, line in enumerate(content.split('\n')):
+            if not line:
+                bwrite('')
+                continue
+            line = textwrap.wrap(line, width=80)
+            for j, wrap in enumerate(line):
+                bwrite(wrap)
+        return
+    print 'vim-reddit error: could not parse item'
+
