@@ -35,7 +35,7 @@ def bufwrite(string):
     else:
         b.append(string)
 
-urls = [] # urls[index]: url of link at index
+urls = [None] * 1000 # urls[index]: url of link at index
 
 def vim_reddit():
     vim.command('edit .reddit')
@@ -68,9 +68,9 @@ def vim_reddit():
 
 def vim_reddit_link(in_browser = False):
     line = vim.current.line
-    search = re.search(r'\[([0-9]+)\]$', line)
+    search = re.match(r'/\d+\. .* \(.*\)', line)
     if search:
-        id = m.group(1)
+        id = search.split()[0].replace('.', '')
         if in_browser:
             browser = webbrowser.get()
             browser.open(urls[int(id)])
