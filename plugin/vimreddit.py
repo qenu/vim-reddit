@@ -48,7 +48,7 @@ def vim_reddit():
             line_1 = str(i + 1) + '. ' + item['title'] + \
                      '(' + item['domain'] + ')'
             line_2 = str(item['score']) + ' points, by ' + \
-                     item['author'] + ' | ' str(item['num_comments']) + \
+                     item['author'] + ' | ' + str(item['num_comments']) + \
                      'comments'
             bufwrite(line_1)
             bufwrite(line_2)
