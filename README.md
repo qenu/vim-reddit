@@ -1,4 +1,25 @@
-### vim-reddit
+## vim-reddit
 
-Browse [/r/programming](http://www.reddit.com/r/programming) inside Vim.
-  Completely unfinished and incredibly not ready to use.
+Browse [reddit](http://www.reddit.com) inside Vim!
+  Heavily inspired (and forked) from [vim-hackernews](https://github.com/ryanss/vim-hackernews)
+
+#### usage
+
+* Open the front page of a subreddit with the `:HackerNews [subreddit]`
+* Press lowercase `o` to open links in Vim
+* Press uppercase `O` to open links in default web browser
+* Press lowercase `u` to go back (or whatever you've remapped `undo` to)
+* Press `Ctrl+r` to go forward (or whatever you're remapped `redo` to)
+* Execute the `:bd` command to close and remove the reddit buffer
+
+#### installation
+
+##### Pathogen
+```bash
+git clone https://github.com/joshhartigan/vim-reddit ~/.vim/bundle/vim-reddit
+```
+
+##### Vundle, vim-plug and friends
+```
+Plugin 'joshhartigan/vim-reddit'
+```
