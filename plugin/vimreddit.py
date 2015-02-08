@@ -47,11 +47,11 @@ def vim_reddit():
         try:
             # surround shorter numbers (e.g. 9) with padding
             # to align with longer numbers
-            index = (2 - len(str(i))) * ' ' + str(i) + '.'
+            index = (2 - len(str(i + 1))) * ' ' + str(i) + '. '
 
-            line_1 = index + '. ' + item['title'] + \
+            line_1 = index + item['title'] + \
                      ' (' + item['domain'] + ')'
-            line_2 = str(item['score']) + ' points, by ' + \
+            line_2 = '    ' + str(item['score']) + ' points, by ' + \
                      item['author'] + ' | ' + str(item['num_comments']) + \
                      ' comments'
             bufwrite(line_1)
