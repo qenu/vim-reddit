@@ -47,7 +47,7 @@ def vim_reddit():
         try:
             # surround shorter numbers (e.g. 9) with padding
             # to align with longer numbers
-            index = (2 - len(str(i + 1))) * ' ' + str(i) + '. '
+            index = (2 - len(str(i))) * ' ' + str(i + 1) + '. '
 
             line_1 = index + item['title'] + \
                      ' (' + item['domain'] + ')'
