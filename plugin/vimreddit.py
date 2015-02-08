@@ -42,12 +42,19 @@ def vim_reddit():
     bufwrite('')
 
     items = json.loads(urllib2.urlopen(REDDIT_URL).read())
-    for index, item in enumerate(items.data.children):
-        line_1 = index + '. ' + item['title'] + '(' + item['domain'] + ')'
-        line_2 = item['score'] + ' points by ' + \
-                 item['author'] + ' | ' + item['num_comments'] + ' comments'
-        bufwrite(line_1)
-        bufwrite(line_2)
+    for i, item in enumerate(items['data']['children']):
+        item = item['data']
+        try:
+            line_1 = str(i + 1) + '. ' + item['title'] + \
+                     '(' + item['domain'] + ')'
+            line_2 = str(item['score']) + ' points, by ' + \
+                     item['author'] + ' | ' str(item['num_comments']) + \
+                     'comments'
+            bufwrite(line_1)
+            bufwrite(line_2)
+            bufwrite('')
+        except KeyError:
+            pass
 
 def vim_reddit_link():
     return
