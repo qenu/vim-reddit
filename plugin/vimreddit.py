@@ -47,3 +47,6 @@ def vim_reddit():
                  item['author'] + ' | ' + item['num_comments'] + ' comments'
         bwrite(line_1)
         bwrite(line_2)
+
+def vim_reddit_link():
+    return
