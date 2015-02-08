@@ -37,16 +37,16 @@ def vim_reddit():
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
 
-    bwrite('/r/programming (http://www.reddit.com/r/programming)')
-    bwrite('')
+    bufwrite('/r/programming (http://www.reddit.com/r/programming)')
+    bufwrite('')
 
     items = json.loads(urllib2.urlopen(REDDIT_URL).read())
     for index, item in enumerate(items.data.children):
         line_1 = index + '. ' + item['title'] + '(' + item['domain'] + ')'
         line_2 = item['score'] + ' points by ' + \
                  item['author'] + ' | ' + item['num_comments'] + ' comments'
-        bwrite(line_1)
-        bwrite(line_2)
+        bufwrite(line_1)
+        bufwrite(line_2)
 
 def vim_reddit_link():
     return
