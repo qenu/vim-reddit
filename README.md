@@ -5,7 +5,7 @@ Browse [reddit](http://www.reddit.com) inside Vim!
 
 #### usage
 
-* Open the front page of a subreddit with the `:HackerNews [subreddit]`
+* Open the front page of a subreddit with the `:VimReddit [subreddit]`
 * Press lowercase `o` to open links in Vim
 * Press uppercase `O` to open links in default web browser
 * Press lowercase `u` to go back (or whatever you've remapped `undo` to)
