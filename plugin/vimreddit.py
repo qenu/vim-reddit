@@ -45,11 +45,15 @@ def vim_reddit():
     for i, item in enumerate(items['data']['children']):
         item = item['data']
         try:
-            line_1 = str(i + 1) + '. ' + item['title'] + \
-                     '(' + item['domain'] + ')'
+            # surround shorter numbers (e.g. 9) with padding
+            # to align with longer numbers
+            index = (2 - len(str(i))) * ' ' + str(i) + '.'
+
+            line_1 = index + '. ' + item['title'] + \
+                     ' (' + item['domain'] + ')'
             line_2 = str(item['score']) + ' points, by ' + \
                      item['author'] + ' | ' + str(item['num_comments']) + \
-                     'comments'
+                     ' comments'
             bufwrite(line_1)
             bufwrite(line_2)
             bufwrite('')
