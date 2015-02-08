@@ -4,6 +4,7 @@ import HTMLParser
 import json
 import vim
 import webbrowser
+import urllib2
 
 REDDIT_URL = 'http://www.reddit.com/r/programming/hot.json'
 
