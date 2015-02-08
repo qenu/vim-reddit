@@ -5,7 +5,7 @@ endif
 
 execute 'python import sys'
 execute "python sys.path.append(r'" . expand("<sfile>:p:h")  . "')"
-execute "python from vimreddit import vim_reddit, vim_redd_link"
+execute "python from vimreddit import vim_reddit, vim_reddit_link"
 
 command! VimReddit python vim_reddit()
 
