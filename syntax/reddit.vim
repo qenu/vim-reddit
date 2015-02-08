@@ -6,6 +6,6 @@ syn match Header /^\/r\/programming.*$/
 highlight Header ctermfg=208 guifg=#ff6600
 
 " highlight link info as a comment
-syn match Comment /\d+ points by .* | \d comments/
+syn match Comment /\d+ points.*$/
 
 let b:current_syntax = 'reddit'
