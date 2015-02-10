@@ -44,7 +44,13 @@ def vim_reddit(sub):
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
 
+<<<<<<< HEAD
     bufwrite('/r/' + sub + ' ' + '(http://www.reddit.com/r/' + sub + ')')
+=======
+    bufwrite('    ┌─o')
+    bufwrite(' ((•  •))  r e d d i t')
+    bufwrite(' http://www.reddit.com/r/' + sub)
+>>>>>>> b08fbd990f6f4d3a201d2f7d3cd3381e36788573
     bufwrite('')
 
     items = json.loads(urllib2.urlopen(redditurl(sub)).read())
