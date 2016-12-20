@@ -49,7 +49,9 @@ def vim_reddit(sub):
     bufwrite(' http://www.reddit.com/r/' + sub)
     bufwrite('')
 
-    items = json.loads(urllib2.urlopen(redditurl(sub)).read())
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-Agent', 'Python/vim-reddit')]
+    items = json.loads(opener.open(redditurl(sub)).read())
     for i, item in enumerate(items['data']['children']):
         item = item['data']
         try:
