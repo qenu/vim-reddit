@@ -37,6 +37,11 @@ def bufwrite(string):
     else:
         b.append(string)
 
+def read_url(url):
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-Agent', 'Python/vim-reddit')]
+    return opener.open(url.encode("UTF-8")).read()
+
 urls = [None] * 1000 # urls[index]: url of link at index
 
 def vim_reddit(sub):
@@ -49,9 +54,7 @@ def vim_reddit(sub):
     bufwrite(' http://www.reddit.com/r/' + sub)
     bufwrite('')
 
-    opener = urllib2.build_opener()
-    opener.addheaders = [('User-Agent', 'Python/vim-reddit')]
-    items = json.loads(opener.open(redditurl(sub)).read())
+    items = json.loads(read_url(redditurl(sub)))
     for i, item in enumerate(items['data']['children']):
         item = item['data']
         try:
@@ -84,9 +87,7 @@ def vim_reddit_link(in_browser = False):
             browser.open(urls[int(id)])
             return
         vim.command('edit .reddit')
-        content = urllib2.urlopen(
-            MARKDOWN_URL + urls[int(id)]
-        ).read()
+        content = read_url(MARKDOWN_URL + urls[int(id)])
         for i, line in enumerate(content.split('\n')):
             if not line:
                 bufwrite('')
