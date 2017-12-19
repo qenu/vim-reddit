@@ -139,6 +139,20 @@ def vim_reddit_link(in_browser=False):
         if URLS_IN_LINE:
             # The first URL in a line
             URL_IN_LINE = URLS_IN_LINE[0]
+
+            # If URL is to an image sharing
+            # website or is an image file,
+            # force open in browser.
+            media_matches = [
+                'redditmedia.com',
+                'imgur.com',
+                'gfycat.com',
+                r'\.(gif|jpg|jpeg|tiff|png|svg)$',
+            ]
+            for media_match in media_matches:
+                if re.search(media_match, URL_IN_LINE):
+                    in_browser = True
+
             if in_browser:
                 browser = webbrowser.get()
                 browser.open(URL_IN_LINE)
