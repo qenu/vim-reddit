@@ -96,7 +96,8 @@ def vim_reddit_link(in_browser=False):
 
     if viewing_web_page:
         print("YO!")
-
+    else:
+        print("NO!")
     line = vim.current.line
     print((urls[int(line.split()[0].replace('.', ''))]))
 
