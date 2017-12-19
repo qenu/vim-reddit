@@ -153,4 +153,4 @@ def vim_reddit_link(in_browser=False):
                         bufwrite(wrap)
         else:
             b = vim.current.buffer
-            print(str(b))
+            print(str(b[0]))
