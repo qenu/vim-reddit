@@ -7,10 +7,12 @@ import webbrowser
 import urllib.request
 import re
 
+MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
+
+
 def redditurl(subreddit):
     return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
 
-MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
 
 def bufwrite(string):
     b = vim.current.buffer
@@ -38,9 +40,17 @@ def bufwrite(string):
         b.append(string)
 
 def read_url(url):
-    response = urllib.request.urlopen(url)
-    return str(response.read())
-    # return urllib.urlopen(url).read()
+    req = urllib.request.Request(
+        url,
+        data=None,
+        headers={
+            'User-Agent': 'Python/vim-reddit'
+        }
+    )
+
+    f = urllib.request.urlopen(req)
+
+    return f.read().decode('utf-8')
 
 urls = [None] * 1000 # urls[index]: url of link at index
 
@@ -53,7 +63,7 @@ def vim_reddit(sub):
     bufwrite(' ((•  •))  r e d d i t')
     bufwrite(' http://www.reddit.com/r/' + sub)
     bufwrite('')
-    
+
     items = json.loads(read_url(redditurl(sub)))
     for i, item in enumerate(items['data']['children']):
         item = item['data']
@@ -75,7 +85,8 @@ def vim_reddit(sub):
         except KeyError:
             pass
 
-def vim_reddit_link(in_browser = False):
+
+def vim_reddit_link(in_browser=False):
     line = vim.current.line
     print((urls[int(line.split()[0].replace('.', ''))]))
 
@@ -97,4 +108,3 @@ def vim_reddit_link(in_browser = False):
                 bufwrite(wrap)
         return
     print('vim-reddit error: could not parse item')
-
