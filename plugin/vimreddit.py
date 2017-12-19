@@ -32,6 +32,7 @@ def read_url(url):
 
 
 def bufwrite(string):
+    global viewing_web_page
     viewing_web_page = True
 
     b = vim.current.buffer
@@ -60,6 +61,7 @@ def bufwrite(string):
 
 
 def vim_reddit(sub):
+    global viewing_web_page
     viewing_web_page = False
 
     vim.command('edit .reddit')
