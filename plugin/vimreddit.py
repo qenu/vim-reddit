@@ -135,6 +135,6 @@ def vim_reddit_link(in_browser=False):
             r'/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/'
 
         URLS_IN_LINE = re.search(URL_REGEX, line)
-        if len(URLS_IN_LINE) > 0:
+        if URLS_IN_LINE:
             URL_IN_LINE = URLS_IN_LINE[0]
             print("URL " + URL_IN_LINE)
