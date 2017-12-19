@@ -32,9 +32,6 @@ def read_url(url):
 
 
 def bufwrite(string):
-    global viewing_web_page
-    viewing_web_page = True
-
     b = vim.current.buffer
 
     # Never write more than two blank lines in a row
@@ -59,11 +56,11 @@ def bufwrite(string):
     else:
         b.append(string)
 
+    global viewing_web_page
+    viewing_web_page = True
+
 
 def vim_reddit(sub):
-    global viewing_web_page
-    viewing_web_page = False
-
     vim.command('edit .reddit')
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
@@ -92,6 +89,9 @@ def vim_reddit(sub):
             urls[i + 1] = item['url']
         except KeyError:
             pass
+
+    global viewing_web_page
+    viewing_web_page = False
 
 
 def vim_reddit_link(in_browser=False):
