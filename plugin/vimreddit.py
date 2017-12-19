@@ -1,17 +1,32 @@
 # -*- coding: utf-8 -*-
 
+import vim
 import textwrap
 import json
-import vim
 import webbrowser
 import urllib.request
 import re
 
 MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
+urls = [None] * 1000  # urls[index]: url of link at index
 
 
 def redditurl(subreddit):
     return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
+
+
+def read_url(url):
+    req = urllib.request.Request(
+        url,
+        data=None,
+        headers={
+            'User-Agent': 'Python/vim-reddit'
+        }
+    )
+
+    f = urllib.request.urlopen(req)
+
+    return f.read().decode('utf-8')
 
 
 def bufwrite(string):
@@ -39,20 +54,6 @@ def bufwrite(string):
     else:
         b.append(string)
 
-def read_url(url):
-    req = urllib.request.Request(
-        url,
-        data=None,
-        headers={
-            'User-Agent': 'Python/vim-reddit'
-        }
-    )
-
-    f = urllib.request.urlopen(req)
-
-    return f.read().decode('utf-8')
-
-urls = [None] * 1000 # urls[index]: url of link at index
 
 def vim_reddit(sub):
     vim.command('edit .reddit')
@@ -72,8 +73,7 @@ def vim_reddit(sub):
             # to align with longer numbers
             index = (2 - len(str(i + 1))) * ' ' + str(i + 1) + '. '
 
-            line_1 = index + item['title'] + \
-                     ' (' + item['domain'] + ')'
+            line_1 = index + item['title'] + ' (' + item['domain'] + ')'
             line_2 = '    ' + str(item['score']) + ' points, by ' + \
                      item['author'] + ' | ' + str(item['num_comments']) + \
                      ' comments'
