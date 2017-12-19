@@ -54,8 +54,6 @@ def vim_reddit(sub):
     bufwrite(' http://www.reddit.com/r/' + sub)
     bufwrite('')
     
-    print("URL: " + redditurl(sub))
-    print("JSON: " + read_url(redditurl(sub))) 
     items = json.loads(read_url(redditurl(sub)))
     for i, item in enumerate(items['data']['children']):
         item = item['data']
