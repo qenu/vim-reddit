@@ -87,24 +87,25 @@ def vim_reddit(sub):
 
 
 def vim_reddit_link(in_browser=False):
-    line = vim.current.line
-    print((urls[int(line.split()[0].replace('.', ''))]))
+    print("This is a test.")
+    # line = vim.current.line
+    # print((urls[int(line.split()[0].replace('.', ''))]))
 
-    regexp = re.compile(r'\d+\.')
-    if regexp.search(line) is not None:
-        id = line.split()[0].replace('.', '')
-        if in_browser:
-            browser = webbrowser.get()
-            browser.open(urls[int(id)])
-            return
-        vim.command('edit .reddit')
-        content = read_url(MARKDOWN_URL + urls[int(id)])
-        for i, line in enumerate(content.split('\n')):
-            if not line:
-                bufwrite('')
-                continue
-            line = textwrap.wrap(line, width=80)
-            for wrap in line:
-                bufwrite(wrap)
-        return
-    print('vim-reddit error: could not parse item')
+    # regexp = re.compile(r'\d+\.')
+    # if regexp.search(line) is not None:
+    #     id = line.split()[0].replace('.', '')
+    #     if in_browser:
+    #         browser = webbrowser.get()
+    #         browser.open(urls[int(id)])
+    #         return
+    #     vim.command('edit .reddit')
+    #     content = read_url(MARKDOWN_URL + urls[int(id)])
+    #     for i, line in enumerate(content.split('\n')):
+    #         if not line:
+    #             bufwrite('')
+    #             continue
+    #         line = textwrap.wrap(line, width=80)
+    #         for wrap in line:
+    #             bufwrite(wrap)
+    #     return
+    # print('vim-reddit error: could not parse item')
