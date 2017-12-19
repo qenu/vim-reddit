@@ -77,7 +77,7 @@ def vim_reddit(sub):
 
 def vim_reddit_link(in_browser = False):
     line = vim.current.line
-    print urls[int(line.split()[0].replace('.', ''))]
+    print(urls[int(line.split()[0].replace('.', ''))])
 
     regexp = re.compile(r'\d+\.')
     if regexp.search(line) is not None:
@@ -96,5 +96,5 @@ def vim_reddit_link(in_browser = False):
             for wrap in line:
                 bufwrite(wrap)
         return
-    print 'vim-reddit error: could not parse item'
+    print('vim-reddit error: could not parse item')
 
