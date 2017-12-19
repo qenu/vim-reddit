@@ -20,7 +20,7 @@ def bufwrite(string):
         return
 
     # Vim must be given UTF-8 rather than unicode
-    if isinstance(string, unicode):
+    if isinstance(string, str):
         string = string.encode('utf-8', errors='replace')
 
     # Code block markers for syntax highlighting
