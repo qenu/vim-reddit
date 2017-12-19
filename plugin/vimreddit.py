@@ -38,9 +38,7 @@ def bufwrite(string):
         b.append(string)
 
 def read_url(url):
-    opener = urllib.request.build_opener()
-    opener.addheaders = [('User-Agent', 'Python/vim-reddit')]
-    return opener.open(str(url)).read()
+    return urllib.urlopen(url).read()
 
 urls = [None] * 1000 # urls[index]: url of link at index
 
