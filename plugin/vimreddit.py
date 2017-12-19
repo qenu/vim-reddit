@@ -97,6 +97,11 @@ def vim_reddit(sub):
 def vim_reddit_link(in_browser=False):
     line = vim.current.line
 
+    if viewing_web_page:
+        print("You are viewing a webpage")
+    else:
+        print("You are NOT viewing a webpage")
+
     if not viewing_web_page:
         # User is not viewing a webpage in VIM
         # This means that they are viewing a sub's
