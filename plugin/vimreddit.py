@@ -98,6 +98,19 @@ def render_url(url):
             bufwrite(wrap)
 
 
+def is_media_link(url):
+    media_matches = [
+        'redditmedia.com',
+        'imgur.com',
+        'gfycat.com',
+        r'\.(gif|jpg|jpeg|tiff|png|svg)$',
+    ]
+    for media_match in media_matches:
+        if re.search(media_match, url):
+            return True
+    return False
+
+
 def vim_reddit_link(in_browser=False):
     # Checking if they are viewing the
     # home page or are reading a post
@@ -120,6 +133,10 @@ def vim_reddit_link(in_browser=False):
         regexp = re.compile(r'\d+\.')
         if regexp.search(line) is not None:
             id = line.split()[0].replace('.', '')
+
+            if is_media_link(urls[int(id)]):
+                in_browser = True
+
             if in_browser:
                 browser = webbrowser.get()
                 browser.open(urls[int(id)])
@@ -143,15 +160,8 @@ def vim_reddit_link(in_browser=False):
             # If URL is to an image sharing
             # website or is an image file,
             # force open in browser.
-            media_matches = [
-                'redditmedia.com',
-                'imgur.com',
-                'gfycat.com',
-                r'\.(gif|jpg|jpeg|tiff|png|svg)$',
-            ]
-            for media_match in media_matches:
-                if re.search(media_match, URL_IN_LINE):
-                    in_browser = True
+            if is_media_link(URL_IN_LINE):
+                in_browser = True
 
             if in_browser:
                 browser = webbrowser.get()
