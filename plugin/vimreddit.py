@@ -39,7 +39,7 @@ def bufwrite(string):
 
 def read_url(url):
     response = urllib.request.urlopen(url)
-    return (response.read())
+    return str(response.read())
     # return urllib.urlopen(url).read()
 
 urls = [None] * 1000 # urls[index]: url of link at index
