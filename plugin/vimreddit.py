@@ -4,7 +4,7 @@ import textwrap
 import json
 import vim
 import webbrowser
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import re
 
 def redditurl(subreddit):
