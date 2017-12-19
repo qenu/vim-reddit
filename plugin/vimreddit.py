@@ -151,3 +151,6 @@ def vim_reddit_link(in_browser=False):
                     line = textwrap.wrap(line, width=80)
                     for wrap in line:
                         bufwrite(wrap)
+        else:
+            b = vim.current.buffer
+            print(str(b))
