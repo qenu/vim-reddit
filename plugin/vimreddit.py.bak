@@ -4,7 +4,7 @@ import textwrap
 import json
 import vim
 import webbrowser
-import urllib.request, urllib.parse, urllib.error
+import urllib
 import re
 
 def redditurl(subreddit):
@@ -24,7 +24,7 @@ def bufwrite(string):
         string = string.encode('utf-8', errors='replace')
 
     # Code block markers for syntax highlighting
-    if string and string[-1] == chr(160).encode('utf-8'):
+    if string and string[-1] == unichr(160).encode('utf-8'):
         b[-1] = string
         return
 
@@ -38,7 +38,7 @@ def bufwrite(string):
         b.append(string)
 
 def read_url(url):
-    opener = urllib.request.build_opener()
+    opener = urllib2.build_opener()
     opener.addheaders = [('User-Agent', 'Python/vim-reddit')]
     return opener.open(url.encode("UTF-8")).read()
 
@@ -77,7 +77,7 @@ def vim_reddit(sub):
 
 def vim_reddit_link(in_browser = False):
     line = vim.current.line
-    print((urls[int(line.split()[0].replace('.', ''))]))
+    print(urls[int(line.split()[0].replace('.', ''))])
 
     regexp = re.compile(r'\d+\.')
     if regexp.search(line) is not None:
