@@ -10,6 +10,8 @@ import re
 MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
 urls = [None] * 1000  # urls[index]: url of link at index
 
+viewing_web_page = False
+
 
 def redditurl(subreddit):
     return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
@@ -30,6 +32,8 @@ def read_url(url):
 
 
 def bufwrite(string):
+    viewing_web_page = True
+
     b = vim.current.buffer
 
     # Never write more than two blank lines in a row
@@ -56,6 +60,8 @@ def bufwrite(string):
 
 
 def vim_reddit(sub):
+    viewing_web_page = False
+
     vim.command('edit .reddit')
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
@@ -87,6 +93,10 @@ def vim_reddit(sub):
 
 
 def vim_reddit_link(in_browser=False):
+
+    if viewing_web_page:
+        print("YO!")
+
     line = vim.current.line
     print((urls[int(line.split()[0].replace('.', ''))]))
 
