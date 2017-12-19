@@ -95,29 +95,41 @@ def vim_reddit(sub):
 
 
 def vim_reddit_link(in_browser=False):
-
-    if viewing_web_page:
-        print("YO!")
-    else:
-        print("NO!")
     line = vim.current.line
-    print((urls[int(line.split()[0].replace('.', ''))]))
 
-    regexp = re.compile(r'\d+\.')
-    if regexp.search(line) is not None:
-        id = line.split()[0].replace('.', '')
-        if in_browser:
-            browser = webbrowser.get()
-            browser.open(urls[int(id)])
+    if not viewing_web_page:
+        # User is not viewing a webpage in VIM
+        # This means that they are viewing a sub's
+        # hot feed.
+        print((urls[int(line.split()[0].replace('.', ''))]))
+
+        regexp = re.compile(r'\d+\.')
+        if regexp.search(line) is not None:
+            id = line.split()[0].replace('.', '')
+            if in_browser:
+                browser = webbrowser.get()
+                browser.open(urls[int(id)])
+                return
+            vim.command('edit .reddit')
+            content = read_url(MARKDOWN_URL + urls[int(id)])
+            for i, line in enumerate(content.split('\n')):
+                if not line:
+                    bufwrite('')
+                    continue
+                line = textwrap.wrap(line, width=80)
+                for wrap in line:
+                    bufwrite(wrap)
             return
-        vim.command('edit .reddit')
-        content = read_url(MARKDOWN_URL + urls[int(id)])
-        for i, line in enumerate(content.split('\n')):
-            if not line:
-                bufwrite('')
-                continue
-            line = textwrap.wrap(line, width=80)
-            for wrap in line:
-                bufwrite(wrap)
-        return
-    print('vim-reddit error: could not parse item')
+        print('vim-reddit error: could not parse item')
+    else:
+        # User is viewing a webpage.
+        # In this case we will take a look at the
+        # line they are trying to edit and use
+        # some regex magic to find a URL.
+        URL_REGEX =\
+            r'/(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/'
+
+        URLS_IN_LINE = re.search(URL_REGEX, line)
+        if len(URLS_IN_LINE) > 0:
+            URL_IN_LINE = URLS_IN_LINE[0]
+            print("URL " + URL_IN_LINE)
