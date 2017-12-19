@@ -10,8 +10,6 @@ import re
 MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
 urls = [None] * 1000  # urls[index]: url of link at index
 
-viewing_web_page = False
-
 
 def redditurl(subreddit):
     return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
@@ -56,9 +54,6 @@ def bufwrite(string):
     else:
         b.append(string)
 
-    global viewing_web_page
-    viewing_web_page = True
-
 
 def vim_reddit(sub):
     vim.command('edit .reddit')
@@ -90,19 +85,33 @@ def vim_reddit(sub):
         except KeyError:
             pass
 
-    global viewing_web_page
-    viewing_web_page = False
+
+def render_url(url):
+    vim.command('edit .reddit')
+    content = read_url(MARKDOWN_URL + url)
+    for i, line in enumerate(content.split('\n')):
+        if not line:
+            bufwrite('')
+            continue
+        line = textwrap.wrap(line, width=80)
+        for wrap in line:
+            bufwrite(wrap)
 
 
 def vim_reddit_link(in_browser=False):
+    # Checking if they are viewing the
+    # home page or are reading a post
+    # by using the alien antenna as a
+    # reference.
+    b = vim.current.buffer
+    if '┌─o' in b[0]:
+        viewing_home_page = True
+    else:
+        viewing_home_page = False
+
     line = vim.current.line
 
-    if viewing_web_page:
-        print("You are viewing a webpage")
-    else:
-        print("You are NOT viewing a webpage")
-
-    if not viewing_web_page:
+    if viewing_home_page:
         # User is not viewing a webpage in VIM
         # This means that they are viewing a sub's
         # hot feed.
@@ -115,15 +124,7 @@ def vim_reddit_link(in_browser=False):
                 browser = webbrowser.get()
                 browser.open(urls[int(id)])
                 return
-            vim.command('edit .reddit')
-            content = read_url(MARKDOWN_URL + urls[int(id)])
-            for i, line in enumerate(content.split('\n')):
-                if not line:
-                    bufwrite('')
-                    continue
-                line = textwrap.wrap(line, width=80)
-                for wrap in line:
-                    bufwrite(wrap)
+            render_url(urls[int(id)])
             return
         print('vim-reddit error: could not parse item')
     else:
@@ -142,15 +143,4 @@ def vim_reddit_link(in_browser=False):
                 browser = webbrowser.get()
                 browser.open(URL_IN_LINE)
             else:
-                vim.command('edit .reddit')
-                content = read_url(MARKDOWN_URL + URL_IN_LINE)
-                for i, line in enumerate(content.split('\n')):
-                    if not line:
-                        bufwrite('')
-                        continue
-                    line = textwrap.wrap(line, width=80)
-                    for wrap in line:
-                        bufwrite(wrap)
-        else:
-            b = vim.current.buffer
-            print(str(b[0]))
+                render_url(URL_IN_LINE)
