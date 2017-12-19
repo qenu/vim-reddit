@@ -136,7 +136,18 @@ def vim_reddit_link(in_browser=False):
 
         URLS_IN_LINE = re.search(URL_REGEX, line)
         if URLS_IN_LINE:
+            # The first URL in a line
             URL_IN_LINE = URLS_IN_LINE[0]
-            print("URL " + URL_IN_LINE)
-        else:
-            print("No URLS in line")
+            if in_browser:
+                browser = webbrowser.get()
+                browser.open(URL_IN_LINE)
+            else:
+                vim.command('edit .reddit')
+                content = read_url(MARKDOWN_URL + URL_IN_LINE)
+                for i, line in enumerate(content.split('\n')):
+                    if not line:
+                        bufwrite('')
+                        continue
+                    line = textwrap.wrap(line, width=80)
+                    for wrap in line:
+                        bufwrite(wrap)
