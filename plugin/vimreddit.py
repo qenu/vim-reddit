@@ -88,12 +88,7 @@ def vim_reddit(sub):
 
 def render_url(url):
     vim.command('edit .reddit')
-    bufwrite('-------------------------------------')
-    bufwrite('Converting web page to readable text.')
-    bufwrite('Please wait...')
-    bufwrite('-------------------------------------')
     content = read_url(MARKDOWN_URL + url)
-    vim.command('edit .reddit')
     for i, line in enumerate(content.split('\n')):
         if not line:
             bufwrite('')
@@ -106,6 +101,7 @@ def render_url(url):
 def is_media_link(url):
     media_matches = [
         'redditmedia.com',
+        'reddit.com/video/',
         'imgur.com',
         'gfycat.com',
         r'\.(gif|jpg|jpeg|tiff|png|svg)$',
@@ -161,8 +157,7 @@ def vim_reddit_link(in_browser=False):
             # The first URL in a line
             URL_IN_LINE = URLS_IN_LINE[0]
 
-            # If URL is to an image sharing
-            # website or is an image file,
+            # If URL is to an image/video,
             # force open in browser.
             if is_media_link(URL_IN_LINE):
                 in_browser = True
