@@ -140,7 +140,7 @@ def render_frontpage_item(in_browser, parameter='url'):
     print('vim-reddit error: could not parse item')
 
 
-def vim_reddit_comments_link(in_browser=False):
+def vim_reddit_comments_link():
     b = vim.current.buffer
     if '┌─o' in b[0]:
         viewing_home_page = True
@@ -148,7 +148,7 @@ def vim_reddit_comments_link(in_browser=False):
         viewing_home_page = False
 
     if viewing_home_page:
-        render_frontpage_item(in_browser, 'permalink')
+        render_frontpage_item(True, 'permalink')
 
 
 def vim_reddit_link(in_browser=False):
