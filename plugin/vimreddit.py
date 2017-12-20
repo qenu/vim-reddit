@@ -128,7 +128,6 @@ def vim_reddit_link(in_browser=False):
         # User is not viewing a webpage in VIM
         # This means that they are viewing a sub's
         # hot feed.
-        print((urls[int(line.split()[0].replace('.', ''))]))
 
         regexp = re.compile(r'\d+\.')
         if regexp.search(line) is not None:
