@@ -7,9 +7,9 @@ Heavily inspired (and forked) from [vim-hackernews](https://github.com/ryanss/vi
 
 ## Usage
 
-* Open the front page of a subreddit with the `:Reddit [subreddit]` or `:Reddit` to open r/all.
+* Open the front page of a subreddit with `:Reddit [subreddit]` or `:Reddit` to open r/all.
 * Press lowercase `o` to open links in Vim. (Images/videos will still open in a web browser since...well you can't view images/videos in a terminal.)
-* Press uppercase `O` to open links in default web browser
+* Press uppercase `O` to open links in the default web browser
 * Press lowercase `c` to view the comments of a reddit post in your browser.
 * Press lowercase `u` to go back (or whatever you've remapped `undo` to)
 * Press `Ctrl+r` to go forward (or whatever you're remapped `redo` to)
@@ -24,11 +24,13 @@ Plug 'joshhartigan/vim-reddit'
 ```
 
 ##### Pathogen
+
 ```bash
 git clone https://github.com/joshhartigan/vim-reddit ~/.vim/bundle/vim-reddit
 ```
 
 ##### Vundle, vim-plug and friends
+
 ```
 Plugin 'joshhartigan/vim-reddit'
 ```
