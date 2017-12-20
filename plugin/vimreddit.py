@@ -55,7 +55,7 @@ def bufwrite(string):
         b.append(string)
 
 
-def vim_reddit(sub):
+def vim_reddit(sub="all"):
     vim.command('edit .reddit')
     vim.command('setlocal noswapfile')
     vim.command('setlocal buftype=nofile')
