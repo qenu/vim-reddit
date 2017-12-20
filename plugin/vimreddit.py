@@ -88,7 +88,12 @@ def vim_reddit(sub):
 
 def render_url(url):
     vim.command('edit .reddit')
+    bufwrite('-------------------------------------')
+    bufwrite('Converting web page to readable text.')
+    bufwrite('Please wait...')
+    bufwrite('-------------------------------------')
     content = read_url(MARKDOWN_URL + url)
+    vim.command('edit .reddit')
     for i, line in enumerate(content.split('\n')):
         if not line:
             bufwrite('')
