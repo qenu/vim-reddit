@@ -7,8 +7,9 @@ import webbrowser
 import urllib.request
 import re
 
+post_results = [None] * 1000  # The posts for the chosen subreddit
+
 MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
-urls = [None] * 1000  # urls[index]: url of link at index
 
 
 def redditurl(subreddit):
@@ -81,7 +82,10 @@ def vim_reddit(sub="all"):
             bufwrite(line_2)
             bufwrite('')
 
-            urls[i + 1] = item['url']
+            post_results[i + 1] = {
+                "url": item['url'],
+                "permalink": "https://reddit.com" + item['permalink'],
+            }
         except KeyError:
             pass
 
@@ -116,6 +120,37 @@ def is_media_link(url):
     return False
 
 
+def render_frontpage_item(parameter='url'):
+    regexp = re.compile(r'\d+\.')
+    line = vim.current.line
+    if regexp.search(line) is not None:
+        id = line.split()[0].replace('.', '')
+
+        the_url = post_results[int(id)][parameter]
+
+        if is_media_link(the_url):
+            in_browser = True
+
+        if in_browser:
+            browser = webbrowser.get()
+            browser.open(the_url)
+            return
+        render_url(the_url)
+        return
+    print('vim-reddit error: could not parse item')
+
+
+def vim_reddit_comments_link(in_browser=False):
+    b = vim.current.buffer
+    if '┌─o' in b[0]:
+        viewing_home_page = True
+    else:
+        viewing_home_page = False
+
+    if viewing_home_page:
+        render_frontpage_item('permalink')
+
+
 def vim_reddit_link(in_browser=False):
     # Checking if they are viewing the
     # home page or are reading a post
@@ -127,27 +162,8 @@ def vim_reddit_link(in_browser=False):
     else:
         viewing_home_page = False
 
-    line = vim.current.line
-
     if viewing_home_page:
-        # User is not viewing a webpage in VIM
-        # This means that they are viewing a sub's
-        # hot feed.
-
-        regexp = re.compile(r'\d+\.')
-        if regexp.search(line) is not None:
-            id = line.split()[0].replace('.', '')
-
-            if is_media_link(urls[int(id)]):
-                in_browser = True
-
-            if in_browser:
-                browser = webbrowser.get()
-                browser.open(urls[int(id)])
-                return
-            render_url(urls[int(id)])
-            return
-        print('vim-reddit error: could not parse item')
+        render_frontpage_item()
     else:
         # User is viewing a webpage.
         # In this case we will take a look at the
@@ -156,6 +172,7 @@ def vim_reddit_link(in_browser=False):
         URL_REGEX =\
             r'(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?'
 
+        line = vim.current.line
         URLS_IN_LINE = re.search(URL_REGEX, line)
         if URLS_IN_LINE:
             # The first URL in a line
