@@ -120,7 +120,7 @@ def is_media_link(url):
     return False
 
 
-def render_frontpage_item(parameter='url'):
+def render_frontpage_item(in_browser, parameter='url'):
     regexp = re.compile(r'\d+\.')
     line = vim.current.line
     if regexp.search(line) is not None:
@@ -148,7 +148,7 @@ def vim_reddit_comments_link(in_browser=False):
         viewing_home_page = False
 
     if viewing_home_page:
-        render_frontpage_item('permalink')
+        render_frontpage_item(in_browser, 'permalink')
 
 
 def vim_reddit_link(in_browser=False):
@@ -163,7 +163,7 @@ def vim_reddit_link(in_browser=False):
         viewing_home_page = False
 
     if viewing_home_page:
-        render_frontpage_item()
+        render_frontpage_item(in_browser)
     else:
         # User is viewing a webpage.
         # In this case we will take a look at the
