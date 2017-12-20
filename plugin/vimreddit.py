@@ -86,8 +86,12 @@ def vim_reddit(sub="all"):
             pass
 
 
-def render_url(url):
-    vim.command('edit .reddit')
+def render_url(url, filename='.reddit', newtab=False):
+    # New-tab and filename functionality is now possible
+    # but not implemented anywhere else in this plugin.
+    if newtab:
+        vim.command('tabnew')
+    vim.command('edit ' + filename)
     content = read_url(MARKDOWN_URL + url)
     for i, line in enumerate(content.split('\n')):
         if not line:
