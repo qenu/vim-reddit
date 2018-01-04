@@ -1,9 +1,17 @@
-# vim-reddit
+# vim-reddit (With Python3 Support)
 
 Browse [reddit](https://www.reddit.com/) inside Vim!
 
-Heavily inspired (and forked) from [vim-hackernews](https://github.com/ryanss/vim-hackernews).
+Forked from [joshhartigan's vim-reddit plugin](https://github.com/joshhartigan/vim-reddit) with added Python3 support and more. 
+
 ![subreddit home](https://raw.githubusercontent.com/mnpk/vim-reddit/master/vim-reddit-home.png)
+**New Features:**
+
+- Open the comments of a post in your browser by pressing c
+- Image and video links open in your web browser instead of attempting to open in your terminal
+- You can now open links that are inside reddit posts.
+- You can now simply type :Reddit with no parameters and you will be able to view r/all
+
 
 ## Usage
 
