@@ -20,17 +20,17 @@ Heavily inspired (and forked) from [vim-hackernews](https://github.com/ryanss/vi
 ##### Plug (Recommended)
 
 ```
-Plug 'joshhartigan/vim-reddit'
+Plug 'DougBeney/vim-reddit'
 ```
 
 ##### Pathogen
 
 ```bash
-git clone https://github.com/joshhartigan/vim-reddit ~/.vim/bundle/vim-reddit
+git clone https://github.com/DougBeney/vim-reddit ~/.vim/bundle/vim-reddit
 ```
 
 ##### Vundle, vim-plug and friends
 
 ```
-Plugin 'joshhartigan/vim-reddit'
+Plugin 'DougBeney/vim-reddit'
 ```
