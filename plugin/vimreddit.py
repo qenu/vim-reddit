@@ -6,11 +6,11 @@ import json
 import webbrowser
 import urllib.request
 import re
+import time
 
 post_results = [None] * 1000  # The posts for the chosen subreddit
 
-MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u='
-
+# MARKDOWN_URL = 'http://fuckyeahmarkdown.com/go/?read=1&u=' # WELL THIS ISN'T WORKING ANYMORE
 
 def redditurl(subreddit):
     return 'http://www.reddit.com/r/' + subreddit + '/hot.json'
@@ -21,14 +21,22 @@ def read_url(url):
         url,
         data=None,
         headers={
-            'User-Agent': 'Python/vim-reddit'
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.95 Safari/537.36'
         }
-    )
-
+        )
     f = urllib.request.urlopen(req)
 
     return f.read().decode('utf-8')
 
+def bulkwrite(string, *, prepend = ''):
+    # bufwrite in bulks
+    for line in string.split('\n'):
+        if not line:
+            bufwrite('')
+            continue
+        line = textwrap.wrap(prepend + line, width=80)
+        for wrap in line:
+            bufwrite(wrap)
 
 def bufwrite(string):
     b = vim.current.buffer
@@ -54,7 +62,6 @@ def bufwrite(string):
         b[0] = string
     else:
         b.append(string)
-
 
 def vim_reddit(sub="all"):
     vim.command('edit .reddit')
@@ -96,14 +103,32 @@ def render_url(url, filename='.reddit', newtab=False):
     if newtab:
         vim.command('tabnew')
     vim.command('edit ' + filename)
-    content = read_url(MARKDOWN_URL + url)
-    for i, line in enumerate(content.split('\n')):
-        if not line:
-            bufwrite('')
-            continue
-        line = textwrap.wrap(line, width=80)
-        for wrap in line:
-            bufwrite(wrap)
+
+    # this is some temp solution since fuck yeah markdown is down
+    # :< sorry it sucks
+
+    content = json.loads(read_url(url[:-1]+'.json'))
+    post, comment = content
+    post = post['data']['children'][0]['data']
+
+    bufwrite(post['title'])
+    bufwrite('('+post['domain']+' | '+post['author_fullname']+')')
+    bufwrite('')
+    bulkwrite(post['selftext'])
+    bufwrite('')
+    bufwrite('--- comments section ---')
+    bufwrite('')
+
+    comments = comment['data']['children']
+    for comment in comments:
+        if comment['kind'] == 't1':
+            bulkwrite(comment['data']['body'])
+            if len(comment['data']['replies']) != 0:
+                replies = comment['data']['replies']['data']['children']
+                for reply in replies:
+                    if reply['kind'] == 't1':
+                        bulkwrite(reply['data']['body'], prepend='    ')
+        bufwrite('')
 
 
 def is_media_link(url):
@@ -188,3 +213,4 @@ def vim_reddit_link(in_browser=False):
                 browser.open(URL_IN_LINE)
             else:
                 render_url(URL_IN_LINE)
+
