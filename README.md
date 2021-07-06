@@ -1,8 +1,10 @@
-# vim-reddit (With Python3 Support)
+# vim-reddit (With Python3 Support) (now without Fuck Yeah Markdown API)
 
 Browse [reddit](https://www.reddit.com/) inside Vim!
 
 Forked from [joshhartigan's vim-reddit plugin](https://github.com/joshhartigan/vim-reddit) with added Python3 support and more. 
+
+Then Forked from [DougBeney/vim-reddit](https://github.com/DougBeney/vim-reddit) replacing the markdown api with some mediocre code.
 
 ![subreddit home](https://raw.githubusercontent.com/mnpk/vim-reddit/master/vim-reddit-home.png)
 **New Features:**
@@ -25,20 +27,10 @@ Forked from [joshhartigan's vim-reddit plugin](https://github.com/joshhartigan/v
 
 ## Installation
 
-##### Plug (Recommended)
-
-```
-Plug 'DougBeney/vim-reddit'
-```
-
 ##### Pathogen
 
 ```bash
-git clone https://github.com/DougBeney/vim-reddit ~/.vim/bundle/vim-reddit
+git clone https://github.com/qenu/vim-reddit ~/.vim/bundle/vim-reddit
 ```
 
-##### Vundle, vim-plug and friends
-
-```
-Plugin 'DougBeney/vim-reddit'
-```
+i have no idea how the others work, im sorry 
